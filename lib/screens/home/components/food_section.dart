@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:donut_app/models/food_asset.dart';
 import 'package:donut_app/detail/detail_screen.dart';
 
-class NewArrivalProducts extends StatelessWidget {
-  const NewArrivalProducts({
-    Key? key,
-  }) : super(key: key);
+class food_section extends StatefulWidget {
+  const food_section({Key? key}) : super(key: key);
 
+  @override
+  State<food_section> createState() => _food_sectionState();
+}
+
+class _food_sectionState extends State<food_section> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -23,11 +26,12 @@ class NewArrivalProducts extends StatelessWidget {
       itemBuilder: (context, index) {
         Food food = dummyFoods[index];
         return GestureDetector(
-          onTap: () {
+          onTap: () => setState(() {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return DetailPage(food: food);
             }));
-          },
+            
+          }),
           child: Container(
             height: 261,
             decoration: BoxDecoration(

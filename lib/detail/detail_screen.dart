@@ -9,8 +9,27 @@ class DetailPage extends StatefulWidget {
   State<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _DetailPageState extends State<DetailPage> with TickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation <double> animation;
   int quantity = 1;
+
+  @override
+  void initState(){
+    super.initState();
+    controller = AnimationController(vsync: this, duration: const Duration(seconds: 7));
+
+    animation = CurvedAnimation(parent: controller, curve: Curves.linear);
+    controller.repeat();
+  }
+
+  @override
+  void dispose(){
+    controller.dispose();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,24 +53,20 @@ class _DetailPageState extends State<DetailPage> {
       child: Stack(
         children: [
           Center(
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.green[300]!,
-                    blurRadius: 16,
-                    offset: const Offset(0, 10),
+            child: RotationTransition(
+              turns: animation,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(250),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(250),
+                  child: Image.asset(
+                    widget.food.image,
+                    fit: BoxFit.cover,
+                    width: 250,
+                    height: 250,
                   ),
-                ],
-                borderRadius: BorderRadius.circular(250),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(250),
-                child: Image.asset(
-                  widget.food.image,
-                  fit: BoxFit.cover,
-                  width: 250,
-                  height: 250,
                 ),
               ),
             ),
@@ -319,4 +334,3 @@ class _DetailPageState extends State<DetailPage> {
     );
   }
 }
-

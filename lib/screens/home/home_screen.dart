@@ -44,7 +44,7 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(
               height: 10,
             ),
-            const NewArrivalProducts(),
+            const food_section(),
             const SizedBox(
               height: 20,
             ),

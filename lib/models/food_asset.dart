@@ -41,7 +41,7 @@ class Food {
 final dummyFoods = [
   Food(
     id: '1',
-    image: 'assets/images/1.jpg',
+    image: 'assets/images/1.png',
     name: 'Yellow Kiwis',
     price: '15',
 
@@ -52,7 +52,7 @@ final dummyFoods = [
   ),
   Food(
     id: '2',
-    image: 'assets/images/2.jpg',
+    image: 'assets/images/2.png',
     name: 'choko chiko',
     price: '20',
 
@@ -63,7 +63,7 @@ final dummyFoods = [
   ),
   Food(
     id: '3',
-    image: 'assets/images/3.jpg',
+    image: 'assets/images/3.png',
     name: 'Choco Bow',
     price: '10',
 
@@ -74,7 +74,7 @@ final dummyFoods = [
   ),
   Food(
     id: '4',
-    image: 'assets/images/4.jpg',
+    image: 'assets/images/4.png',
     name: 'Sexy Pinkys',
     price: '12',
 
