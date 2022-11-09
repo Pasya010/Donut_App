@@ -43,8 +43,7 @@ final dummyFoods = [
     id: '1',
     image: 'assets/images/1.png',
     name: 'Yellow Kiwis',
-    price: '15',
-
+    price: '10',
     kcal: '100',
     brand: 'Talk',
     description:
@@ -54,8 +53,7 @@ final dummyFoods = [
     id: '2',
     image: 'assets/images/2.png',
     name: 'choko chiko',
-    price: '20',
-
+    price: '10',
     kcal: '100',
     brand: 'Talk',
     description:
@@ -66,7 +64,6 @@ final dummyFoods = [
     image: 'assets/images/3.png',
     name: 'Choco Bow',
     price: '10',
-
     kcal: '20',
     brand: 'Talk',
     description:
@@ -76,8 +73,7 @@ final dummyFoods = [
     id: '4',
     image: 'assets/images/4.png',
     name: 'Sexy Pinkys',
-    price: '12',
-
+    price: '10',
     kcal: '60',
     brand: 'Talk',
     description:

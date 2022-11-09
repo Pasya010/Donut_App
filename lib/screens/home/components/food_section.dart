@@ -1,15 +1,18 @@
+import 'package:donut_app/models/items.dart';
+import 'package:donut_app/models/price.dart';
 import 'package:flutter/material.dart';
 import 'package:donut_app/models/food_asset.dart';
 import 'package:donut_app/detail/detail_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class food_section extends StatefulWidget {
-  const food_section({Key? key}) : super(key: key);
+class FoodSection extends ConsumerStatefulWidget {
+  const FoodSection({Key? key}) : super(key: key);
 
   @override
-  State<food_section> createState() => _food_sectionState();
+   ConsumerState<FoodSection> createState() => FoodSectionState();
 }
 
-class _food_sectionState extends State<food_section> {
+class FoodSectionState extends ConsumerState<FoodSection> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -88,7 +91,10 @@ class _food_sectionState extends State<food_section> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(95, 11, 0, 0,),
                       child: TextButton(
-                        onPressed: () {}, 
+                        onPressed: () {
+                          ref.read(ItemsProvider.notifier).state++;
+                          ref.read(PriceProvider.notifier).state+=10;
+                        }, 
                         child: const Text('Add',
                         style: TextStyle(
                           fontSize: 17,
@@ -118,7 +124,11 @@ class _food_sectionState extends State<food_section> {
                     child: InkWell(
                       child: Padding(
                         padding: EdgeInsets.all(8),
-                        child: Text('\$10')
+                        child: Text('\$10',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold
+                        ),)
                       ),
                     ),
                   ),
