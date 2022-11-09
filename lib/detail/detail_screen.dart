@@ -1,16 +1,38 @@
+import 'package:donut_app/models/items.dart';
+import 'package:donut_app/models/price.dart';
 import 'package:flutter/material.dart';
 import 'package:donut_app/models/food_asset.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DetailPage extends StatefulWidget {
+class DetailPage extends ConsumerStatefulWidget {
   const DetailPage({Key? key, required this.food}) : super(key: key);
   final Food food;
 
   @override
-  State<DetailPage> createState() => _DetailPageState();
+  ConsumerState<DetailPage> createState() => _DetailPageState();
 }
 
-class _DetailPageState extends State<DetailPage> {
+class _DetailPageState extends ConsumerState<DetailPage> with TickerProviderStateMixin {
+  late AnimationController controller;
+  late Animation<double> animation;
   int quantity = 1;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(vsync: this, duration: const Duration(seconds: 7));
+
+    animation = CurvedAnimation(parent: controller, curve: Curves.linear);
+    controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,24 +56,20 @@ class _DetailPageState extends State<DetailPage> {
       child: Stack(
         children: [
           Center(
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.green[300]!,
-                    blurRadius: 16,
-                    offset: const Offset(0, 10),
+            child: RotationTransition(
+              turns: animation,
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(250),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(250),
+                  child: Image.asset(
+                    widget.food.image,
+                    fit: BoxFit.cover,
+                    width: 250,
+                    height: 250,
                   ),
-                ],
-                borderRadius: BorderRadius.circular(250),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(250),
-                child: Image.asset(
-                  widget.food.image,
-                  fit: BoxFit.cover,
-                  width: 250,
-                  height: 250,
                 ),
               ),
             ),
@@ -67,7 +85,9 @@ class _DetailPageState extends State<DetailPage> {
       child: Row(
         children: [
           const BackButton(color: Colors.black),
-          const SizedBox(width: 15,),
+          const SizedBox(
+            width: 15,
+          ),
           Text(
             widget.food.name,
             textAlign: TextAlign.left,
@@ -85,13 +105,15 @@ class _DetailPageState extends State<DetailPage> {
     return Container(
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      color: Colors.white,
+        color: Colors.white,
       ),
       padding: const EdgeInsets.all(15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           const Text(
             "Ingredients",
             style: TextStyle(
@@ -132,11 +154,10 @@ class _DetailPageState extends State<DetailPage> {
                         ),
                         TextSpan(
                           text: "    2%",
-                          style: 
-                          TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal,
-                              ),
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ],
                     ),
@@ -174,16 +195,15 @@ class _DetailPageState extends State<DetailPage> {
                         TextSpan(
                           text: "    3%",
                           style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal,
-                              ),
+                            fontSize: 11,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-
               const SizedBox(width: 5),
               Align(
                 child: Container(
@@ -215,16 +235,15 @@ class _DetailPageState extends State<DetailPage> {
                         TextSpan(
                           text: "   12%",
                           style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal,
-                              ),
+                            fontSize: 11,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
               ),
-
               const SizedBox(width: 5),
               Align(
                 child: Container(
@@ -246,7 +265,9 @@ class _DetailPageState extends State<DetailPage> {
                     TextSpan(
                       text: "Energy\n",
                       style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 12),
                       children: [
                         TextSpan(
                           text: "140 Kcal\n\n",
@@ -256,9 +277,9 @@ class _DetailPageState extends State<DetailPage> {
                         TextSpan(
                           text: "   40%",
                           style: TextStyle(
-                              fontSize: 11,
-                              fontWeight: FontWeight.normal,
-                              ),
+                            fontSize: 11,
+                            fontWeight: FontWeight.normal,
+                          ),
                         ),
                       ],
                     ),
@@ -284,7 +305,7 @@ class _DetailPageState extends State<DetailPage> {
           ),
           const SizedBox(height: 30),
           Container(
-            margin: const EdgeInsets.symmetric(horizontal: 0),
+            margin: const EdgeInsets.symmetric(horizontal: 15),
             padding: const EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 15,
@@ -296,27 +317,50 @@ class _DetailPageState extends State<DetailPage> {
               borderRadius: BorderRadius.circular(20),
               border: Border.all(),
             ),
-            child: const Text.rich(
-              TextSpan(
-                text: '\$' "12.75\n",
-                style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-                children: [
-                  TextSpan(
-                    text: "Delivery Not Included",
-                    style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.normal),
-                  ),
-                ],
-              ),
+            child: Row(
+              children: [
+                Column(
+                  children: [
+                     Text.rich(TextSpan(
+                      text: '\$'"${ref.watch(PriceProvider)}\n",
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold),
+                      children: const [
+                        TextSpan(
+                          text: "Delivery Not Included",
+                          style: TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.normal),
+                        ),
+                      ],
+                    ))
+                  ],
+                ),
+                const SizedBox(width: 30),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        ref.read(PriceProvider.notifier).state+=10;
+                        ref.read(ItemsProvider.notifier).state++;
+                      },
+                      child: const Text(
+                        "Add To Chart",
+                        style: TextStyle(
+                          color: Colors.black,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
             ),
-          ),
-          const SizedBox(height: 20),
+          )
         ],
       ),
     );
   }
 }
-

@@ -1,9 +1,10 @@
+import 'package:donut_app/screens/home/splashscreen.dart';
 import 'package:flutter/material.dart';
 import 'package:donut_app/constants.dart';
-import 'package:donut_app/screens/home/home_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(color: Colors.black54),
         ),
       ),
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }

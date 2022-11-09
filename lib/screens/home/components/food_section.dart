@@ -1,12 +1,18 @@
+import 'package:donut_app/models/items.dart';
+import 'package:donut_app/models/price.dart';
 import 'package:flutter/material.dart';
 import 'package:donut_app/models/food_asset.dart';
 import 'package:donut_app/detail/detail_screen.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class NewArrivalProducts extends StatelessWidget {
-  const NewArrivalProducts({
-    Key? key,
-  }) : super(key: key);
+class FoodSection extends ConsumerStatefulWidget {
+  const FoodSection({Key? key}) : super(key: key);
 
+  @override
+   ConsumerState<FoodSection> createState() => FoodSectionState();
+}
+
+class FoodSectionState extends ConsumerState<FoodSection> {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
@@ -23,11 +29,12 @@ class NewArrivalProducts extends StatelessWidget {
       itemBuilder: (context, index) {
         Food food = dummyFoods[index];
         return GestureDetector(
-          onTap: () {
+          onTap: () => setState(() {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return DetailPage(food: food);
             }));
-          },
+            
+          }),
           child: Container(
             height: 261,
             decoration: BoxDecoration(
@@ -84,7 +91,10 @@ class NewArrivalProducts extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(95, 11, 0, 0,),
                       child: TextButton(
-                        onPressed: () {}, 
+                        onPressed: () {
+                          ref.read(ItemsProvider.notifier).state++;
+                          ref.read(PriceProvider.notifier).state+=10;
+                        }, 
                         child: const Text('Add',
                         style: TextStyle(
                           fontSize: 17,
@@ -114,7 +124,11 @@ class NewArrivalProducts extends StatelessWidget {
                     child: InkWell(
                       child: Padding(
                         padding: EdgeInsets.all(8),
-                        child: Text('\$10')
+                        child: Text('\$10',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold
+                        ),)
                       ),
                     ),
                   ),
